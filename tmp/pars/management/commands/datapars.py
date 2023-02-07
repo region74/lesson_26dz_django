@@ -5,9 +5,11 @@ import requests
 
 
 class Command(BaseCommand):
+    def __init__(self, text):
+        self.text = text
 
     def handle(self, *args, **options):
-        text = 'Учитель'
+        text = self.text
         result = parser(text)
         for test_add in result:
             Position.objects.get_or_create(name=test_add[0])
@@ -28,6 +30,7 @@ class Command(BaseCommand):
             Vacancy.objects.get_or_create(position_id=pos_id, region_id=reg_id, firma_id=fir_id,
                                           zarplata_id=zar_id,
                                           link_id=lin_id)
+
 
 def parser(text):
     url = 'https://api.hh.ru/vacancies'

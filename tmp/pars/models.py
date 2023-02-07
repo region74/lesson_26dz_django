@@ -42,3 +42,6 @@ class Vacancy(models.Model):
     firma_id = models.ForeignKey(Firma,on_delete=models.CASCADE,default='0')
     zarplata_id = models.ForeignKey(Zarplata,on_delete=models.CASCADE,default='0')
     link_id = models.ForeignKey(Link,on_delete=models.CASCADE,default='0')
+
+    def __str__(self):
+        return f'Должность: {self.position_id} Город: {self.region_id} Фирма: {self.firma_id} Зарплата: {self.zarplata_id} Ссылка: {self.link_id}'

@@ -1,33 +1,44 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse
-
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView, TemplateView
+from django.views.generic.base import ContextMixin
+from django.urls import reverse, reverse_lazy
 from .models import Position, Vacancy
-from .forms import FoundForm
+from .forms import FoundForm, MainForm
 from .management.commands.datapars import Command
 
 
-def main_view(request):
-    return render(request, 'pars/main.html', context={})
+class MainView(FormView):
+    template_name = 'pars/main.html'
+    form_class = MainForm
 
 
-def result_view(request):
-    vacancy = Vacancy.objects.all().order_by('-id')[:20]
-    return render(request, 'pars/results.html', context={'vacancy': vacancy})
+class ParsResultView(ListView):
+    model = Vacancy
+    template_name = 'pars/results.html'
+
+    def get_queryset(self):
+        return Vacancy.objects.all().order_by('-id')[:20]
 
 
-def found_view(request):
-    if request.method == 'POST':
-        form = FoundForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data['name']
-            print(data)
-            com = Command(data)
-            com.handle()
-            return HttpResponseRedirect(reverse('pars:results'))
-        else:
-            return render(request, 'pars/found.html', context={'form': form})
-    else:
+class FoundMixin(ContextMixin):
+    def post(self, request, *args, **kwargs):
+        found = request.POST['name']
+        com = Command(found)
+        com.handle()
+        return HttpResponseRedirect(reverse('pars:results'))
+        # return super().post(request,*args,**kwargs)
+
+    def get(self, request, *args, **kwargs):
         form = FoundForm()
         return render(request, 'pars/found.html', context={'form': form})
+        # form = FoundForm()
+        # return super().get(request, *args, **kwargs)
 
-# Create your views here.
+
+class ParsFoundView(CreateView, FoundMixin):
+    template_name = 'pars/found.html'
+
+
+class PsihView(TemplateView):
+    template_name = 'pars/psih.html'

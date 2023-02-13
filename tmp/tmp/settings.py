@@ -36,8 +36,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pars',
-    'users'
+    'users',
+    'crispy_forms'
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -121,3 +123,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Переназначение модели пользователя
 AUTH_USER_MODEL = 'users.User'
+
+# Переход после входа
+LOGIN_REDIRECT_URL = '/'
+# Куда идем после входа
+LOGOUT_REDIRECT_URL = '/'
+# Куда идти на логин
+LOGIN_URL = '/users/login/'

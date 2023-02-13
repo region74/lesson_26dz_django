@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView, TemplateView
@@ -36,7 +37,7 @@ class FoundMixin(ContextMixin):
         # return super().get(request, *args, **kwargs)
 
 
-class ParsFoundView(CreateView, FoundMixin):
+class ParsFoundView(LoginRequiredMixin,CreateView, FoundMixin):
     template_name = 'pars/found.html'
 
 

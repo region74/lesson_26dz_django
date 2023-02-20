@@ -21,5 +21,17 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pars.urls', namespace='pars')),
-    path('users/',include('users.urls',namespace='users'))
+    path('users/', include('users.urls', namespace='users')),
+    path('__debug__/', include('debug_toolbar.urls'))
 ]
+if settings.DEBUG:
+    import debug_toolbar
+    import mimetypes
+
+    mimetypes.add_type("application/javascript", ".js", True)
+
+    urlpatterns = [
+                      path('__debug__/', include(debug_toolbar.urls)),
+                  ] + urlpatterns
+
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

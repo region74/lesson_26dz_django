@@ -16,7 +16,7 @@
 <form method="post" data-sb-form-api-token="API_TOKEN">
     <div class="form-group">
         {% csrf_token %}
-        {{form|crispy}}
+        {{form}}
         <hr>
         <button class="btn btn-success" type="submit">Войти</button>
     </div>

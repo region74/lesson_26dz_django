@@ -17,6 +17,7 @@ class MainView(FormView):
 class ParsResultView(ListView):
     model = Vacancy
     template_name = 'pars/results.html'
+    paginate_by = 5
 
     def get_queryset(self):
         return Vacancy.objects.all().order_by('-id')[:20]

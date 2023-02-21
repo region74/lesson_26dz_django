@@ -20,7 +20,9 @@ class ParsResultView(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Vacancy.objects.all().order_by('-id')[:20]
+        # return Vacancy.objects.all().order_by('-id')[:20]
+        # оптимизирует с 29 на 4 запроса
+        return Vacancy.objects.select_related().all().order_by('-id')[:20]
 
 
 class FoundMixin(ContextMixin):
@@ -38,7 +40,7 @@ class FoundMixin(ContextMixin):
         # return super().get(request, *args, **kwargs)
 
 
-class ParsFoundView(LoginRequiredMixin,CreateView, FoundMixin):
+class ParsFoundView(LoginRequiredMixin, CreateView, FoundMixin):
     template_name = 'pars/found.html'
 
 

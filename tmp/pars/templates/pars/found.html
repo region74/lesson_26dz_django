@@ -11,7 +11,8 @@
     <div class="col-md-10 col-lg-8 col-xl-7">
         <form method="post" data-sb-form-api-token="API_TOKEN">
             {% csrf_token %}
-            {{form}}
+
+            {{form|crispy}}
             <!-- Submit Button-->
             <button class="btn btn-outline-success" type="submit">Поиск
             </button>

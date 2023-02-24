@@ -17,11 +17,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import routers, serializers, viewsets
+from pars.api_views import VacancyViewSet
+
+router = routers.DefaultRouter()
+router.register(r'vacancy', VacancyViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pars.urls', namespace='pars')),
     path('users/', include('users.urls', namespace='users')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/ver1/', include(router.urls)),
     # path('__debug__/', include('debug_toolbar.urls'))
 ]
 if settings.DEBUG:
